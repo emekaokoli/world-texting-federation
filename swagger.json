@@ -1,0 +1,288 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Address API",
+    "description": "Address API",
+    "contact": {
+      "name": "Emeka Okoli",
+      "email": "emekaokoli00@gmail.com",
+      "url": "https://github.com/emekaokoli"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:4000",
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "Address",
+      "description": "API for address"
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "securityDefinitions": { },
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Returns all available addresses",
+        "tags": ["Address"],
+        "description": "gets all records in the database",
+        "produces": ["application/json"],
+        "responses": {
+          
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/address": {
+      "post": {
+        "summary": "Creates new address",
+        "tags": ["Address"],
+        "description": "Creates a new address",
+        "parameters": [
+          {
+            "name": "address",
+            "in": "body",
+            "description": "Creates a new address",
+            "schema": {
+              "$ref": "#/definitions/Address"
+            }
+          }
+        ],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "post created",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Validation error, provided data in incorrect format",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+
+    "/address/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "Returns specific address",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "summary": "Returns specific address",
+        "tags": ["Address"],
+        "parameters": [
+          {
+            "name": "Address",
+            "in": "body",
+            "description": "Returns specific address as a hash",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "address specified by id does not exist",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Modifies specific address",
+        "tags": ["Address"],
+        "parameters": [
+          {
+            "name": "Address",
+            "in": "body",
+            "description": "Updates specific address with specific attributes",
+            "schema": {
+              "$ref": "#/definitions/updateAddress"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "updated",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "The address specified by id does not exist",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "contains value “not interested” or “interested” no further changes allowed",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "an incorrect format is provided",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Permanently removes specific address",
+        "tags": ["Address"],
+        "responses": {
+          "204": {
+            "description": "Permanently removes specific address",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "The address specified by id does not exist",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "409": {
+            "description": "The request cannot be completed, conflict with the current data",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "definitions": {
+    "Address": {
+      "required": ["country", "_id", "city", "street", "postalCode", "number"],
+      "properties": {
+        "_id": {
+          "type": "integer",
+          "uniqueItems": true
+        },
+        "country": {
+          "type": "string",
+          "uniqueItems": false
+        },
+        "city": {
+          "type": "string",
+          "uniqueItems": false
+        },
+        "street": {
+          "type": "string",
+          "uniqueItems": false
+        },
+        "postalcode": {
+          "type": "number",
+          "uniqueItems": false,
+          "minimum": 5,
+          "maximum": 6
+        },
+        "number": {
+          "type": "string",
+          "uniqueItems": false,
+          "minimum": 11,
+          "maximum": 14
+        },
+        "numberAddition": {
+          "type": "string",
+          "uniqueItems": false
+        },
+        "createdAt": {
+          "type": "string",
+          "default": "date-time",
+          "example": "2019-05-17"
+        },
+        "updatedAt": {
+          "type": "string",
+          "default": "date-time",
+          "example": "2019-05-17"
+        },
+        "status": {
+          "type": "string",
+          "default": null,
+          "uniqueItems": false
+        },
+        "name": {
+          "type": "string",
+          "default": null,
+          "uniqueItems": false
+        },
+        "email": {
+          "type": "string",
+          "default": null,
+          "uniqueItems": false
+        }
+      }
+    },
+    "updateAddress": {
+      "properties": {
+        "status": {
+          "type": "boolean",
+          "default": null
+        },
+        "name": {
+          "type": "string",
+          "default": null
+        },
+        "email": {
+          "type": "string",
+          "default": null
+        }
+      }
+    }, 
+    "Error":{
+      "properties": {
+        "status": {
+          "type":"string"
+        },
+        "message":{
+          "type":"string"
+        }
+       } 
+    }
+  }
+}

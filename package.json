@@ -1,0 +1,35 @@
+{
+  "name": "World-Texting-Foundation-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "config": "^3.3.7",
+    "consola": "^2.15.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "http-errors": "^2.0.0",
+    "joi": "^17.6.0",
+    "joi-objectid": "^4.0.2",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "mongodb": "^4.5.0",
+    "mongoose": "^6.3.0",
+    "morgan": "^1.10.0",
+    "swagger-jsdoc": "^6.2.0",
+    "swagger-ui-express": "^4.3.0"
+  },
+  "scripts": {
+    "start": "set NODE_ENV=production&&node ./src/utils/startServer",
+    "dev": "set NODE_ENV=development&&nodemon ./src/utils/startServer",
+    "test": "jest --coverage --verbose --watchAll --runInBand --forceExit",
+    "lint": "eslint --fix --cache"
+  },
+  "devDependencies": {
+    "jest": "^28.0.2",
+    "nodemon": "^2.0.15",
+    "supertest": "^6.2.3"
+  }
+}
