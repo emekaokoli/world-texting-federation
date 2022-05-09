@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  worldtextingfoundationapi:
+    image: worldtextingfoundationapi
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - 1339:1339

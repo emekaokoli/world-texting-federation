@@ -110,7 +110,7 @@ exports.userSessionHandler = async (req, res, next) => {
 
     return res.status(201).json({
       success: true,
-      message: 'Account created successfully',
+      message: 'Session created successfully',
       accessToken,
       refreshToken,
     });
