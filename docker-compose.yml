@@ -4,9 +4,23 @@ services:
   worldtextingfoundationapi:
     image: worldtextingfoundationapi
     build:
-      context: .
-      dockerfile: ./Dockerfile
+      context: ./src
+      dockerfile: Dockerfile
     environment:
-      NODE_ENV: production
+      - HOST=mongodb
+      - PORT=27017
+      - DATA=wtf_db
+    volumes:
+      - 'mongo:/data/db'
+  mongodb:
+    image: mongo
+    restart: always
     ports:
-      - 1339:1339
+      - '27017:27017'
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      LOCAL_DB_URI: mongodb://localhost:27017/wtf_db

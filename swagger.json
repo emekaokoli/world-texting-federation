@@ -2,8 +2,8 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "Address API",
-    "description": "Address API",
+    "title": "wtf",
+    "description": "world texting federation api",
     "contact": {
       "name": "Emeka Okoli",
       "email": "emekaokoli00@gmail.com",
@@ -14,27 +14,26 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "host": "localhost:4000",
+  "host": "localhost:1339",
   "basePath": "/api/v1",
   "tags": [
     {
-      "name": "Address",
-      "description": "API for address"
+      "name": "wtf",
+      "description": "API for wtf"
     }
   ],
   "schemes": ["http"],
   "consumes": ["application/json"],
   "produces": ["application/json"],
-  "securityDefinitions": { },
+  "securityDefinitions": {},
   "paths": {
     "/": {
       "get": {
-        "summary": "Returns all available addresses",
-        "tags": ["Address"],
+        "summary": "Returns all available texts",
+        "tags": ["wtf"],
         "description": "gets all records in the database",
         "produces": ["application/json"],
         "responses": {
-          
           "200": {
             "description": "Success",
             "schema": {
@@ -50,18 +49,18 @@
         }
       }
     },
-    "/address": {
+    "/acronym": {
       "post": {
-        "summary": "Creates new address",
-        "tags": ["Address"],
-        "description": "Creates a new address",
+        "summary": "Creates new acronym",
+        "tags": ["Acronym"],
+        "description": "Creates a new acronym",
         "parameters": [
           {
-            "name": "address",
+            "name": "acronym",
             "in": "body",
-            "description": "Creates a new address",
+            "description": "Creates a new acronym",
             "schema": {
-              "$ref": "#/definitions/Address"
+              "$ref": "#/definitions/acronym"
             }
           }
         ],
@@ -74,7 +73,7 @@
               "$ref": "#/definitions/Error"
             }
           },
-          "422": {
+          "400": {
             "description": "Validation error, provided data in incorrect format",
             "schema": {
               "$ref": "#/definitions/Error"
@@ -84,24 +83,24 @@
       }
     },
 
-    "/address/{id}": {
+    "/acronym/{acronymId}": {
       "parameters": [
         {
-          "name": "id",
+          "name": "acronymId",
           "in": "path",
           "required": true,
-          "description": "Returns specific address",
+          "description": "Returns specific acronym",
           "type": "string"
         }
       ],
       "get": {
-        "summary": "Returns specific address",
-        "tags": ["Address"],
+        "summary": "Returns specific acronym",
+        "tags": ["Acronym"],
         "parameters": [
           {
-            "name": "Address",
+            "name": "Acronym",
             "in": "body",
-            "description": "Returns specific address as a hash",
+            "description": "Returns specific acronym text and description",
             "schema": {
               "$ref": "#/definitions/Error"
             }
@@ -115,7 +114,7 @@
             }
           },
           "404": {
-            "description": "address specified by id does not exist",
+            "description": "acronym specified by id does not exist",
             "schema": {
               "$ref": "#/definitions/Error"
             }
@@ -123,39 +122,33 @@
         }
       },
       "patch": {
-        "summary": "Modifies specific address",
-        "tags": ["Address"],
+        "summary": "Modifies specific acronym",
+        "tags": ["Acronym"],
         "parameters": [
           {
-            "name": "Address",
+            "name": "Acronym",
             "in": "body",
-            "description": "Updates specific address with specific attributes",
+            "description": "Updates specific acronym with specific attributes",
             "schema": {
-              "$ref": "#/definitions/updateAddress"
+              "$ref": "#/definitions/updateAcronym"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "updated",
+            "description": "update success",
             "schema": {
               "$ref": "#/definitions/Error"
             }
           },
           "404": {
-            "description": "The address specified by id does not exist",
+            "description": "The acronym specified by id does not exist",
             "schema": {
               "$ref": "#/definitions/Error"
             }
           },
-          "403": {
-            "description": "contains value “not interested” or “interested” no further changes allowed",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          },
-          "422": {
-            "description": "an incorrect format is provided",
+          "400": {
+            "description": "validation error, an incorrect format is provided",
             "schema": {
               "$ref": "#/definitions/Error"
             }
@@ -163,23 +156,17 @@
         }
       },
       "delete": {
-        "summary": "Permanently removes specific address",
-        "tags": ["Address"],
+        "summary": "Permanently removes specific acronym",
+        "tags": ["Acronym"],
         "responses": {
           "204": {
-            "description": "Permanently removes specific address",
+            "description": "Permanently removes specific acronym",
             "schema": {
               "$ref": "#/definitions/Error"
             }
           },
           "404": {
-            "description": "The address specified by id does not exist",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          },
-          "409": {
-            "description": "The request cannot be completed, conflict with the current data",
+            "description": "The acronym specified by id does not exist",
             "schema": {
               "$ref": "#/definitions/Error"
             }
@@ -196,93 +183,48 @@
   },
 
   "definitions": {
-    "Address": {
-      "required": ["country", "_id", "city", "street", "postalCode", "number"],
+    "acronym": {
+      "required": ["_id", "user", "symbolName", "description"],
       "properties": {
         "_id": {
           "type": "integer",
           "uniqueItems": true
         },
-        "country": {
+        "user": {
           "type": "string",
           "uniqueItems": false
         },
-        "city": {
+        "symbolName": {
           "type": "string",
           "uniqueItems": false
         },
-        "street": {
+        "description": {
           "type": "string",
-          "uniqueItems": false
-        },
-        "postalcode": {
-          "type": "number",
-          "uniqueItems": false,
-          "minimum": 5,
-          "maximum": 6
-        },
-        "number": {
-          "type": "string",
-          "uniqueItems": false,
-          "minimum": 11,
-          "maximum": 14
-        },
-        "numberAddition": {
-          "type": "string",
-          "uniqueItems": false
-        },
-        "createdAt": {
-          "type": "string",
-          "default": "date-time",
-          "example": "2019-05-17"
-        },
-        "updatedAt": {
-          "type": "string",
-          "default": "date-time",
-          "example": "2019-05-17"
-        },
-        "status": {
-          "type": "string",
-          "default": null,
-          "uniqueItems": false
-        },
-        "name": {
-          "type": "string",
-          "default": null,
-          "uniqueItems": false
-        },
-        "email": {
-          "type": "string",
-          "default": null,
           "uniqueItems": false
         }
       }
     },
-    "updateAddress": {
+    "updateAcronym": {
       "properties": {
-        "status": {
-          "type": "boolean",
-          "default": null
-        },
-        "name": {
+        "symbolName": {
           "type": "string",
           "default": null
         },
-        "email": {
+        "description": {
           "type": "string",
           "default": null
         }
       }
-    }, 
-    "Error":{
+    },
+    "Error": {
       "properties": {
-        "status": {
-          "type":"string"
+        "success": {
+          "type": "boolean"
         },
-        "message":{
-          "type":"string"
+        "message": {
+          "type": "string"
         }
-       } 
+      }
     }
   }
 }
